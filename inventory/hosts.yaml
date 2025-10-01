@@ -1,0 +1,11 @@
+---
+blegh:
+  hosts:
+    aegir:
+    localhost:
+
+debian11_64Guest:
+  hosts:
+    tt2025-01.ruju.adc.lan:
+      vm_id: tt2025-01.ruju.adc.lan_423faeef-c38e-7a0d-5cbe-4a3a569b62ea
+    tt2025-02.ruju.adc.lan:

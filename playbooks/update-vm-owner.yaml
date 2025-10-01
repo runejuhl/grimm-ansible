@@ -1,0 +1,39 @@
+---
+- hosts:
+    - tt2025-01.ruju.adc.lan_423faeef-c38e-7a0d-5cbe-4a3a569b62ea
+    - tt2025-01.ruju.adc.lan
+
+  vars:
+    vm_hostname: |-
+      {{ hostvars[inventory_hostname]["guest.hostName"] }}
+    vm_uuid: |-
+      {{ hostvars[inventory_hostname]["config.uuid"] }}
+
+  module_defaults:
+    community.vmware.vmware_guest_custom_attributes:
+      hostname: '{{ lookup("env", "VMWARE_HOST") }}'
+      username: '{{ lookup("env", "VMWARE_USER") }}'
+      password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
+
+  tasks:
+    - when: |-
+        not (server_owner is defined)
+      block:
+        - name: "Get current server owner from ITSM"
+          ansible.builtin.uri:
+            url: http://tt2025-01.ruju.adc.lan/server-owners.json
+          register: server_owners_result
+
+        - ansible.builtin.set_fact:
+            server_owner: |-
+              {{ server_owners_result.json[vm_hostname] }}
+
+    - name: Add virtual machine custom attributes
+      community.vmware.vmware_guest_custom_attributes:
+        uuid: "{{ vm_uuid }}"
+        state: present
+        attributes:
+          - name: "ServerOwner"
+            value: |-
+              {{ server_owner if server_owner is defined else server_owners_result.json[vm_hostname] }}
+      delegate_to: localhost

@@ -1,0 +1,6 @@
+#+title: Grimm Ansible
+* What?
+Something, something, wolf, something, red riding hood, something. Ansible. And VMware!
+
+Created for Atea Denmark Tech Tour 2025. Caveat emptor, and all that.
+

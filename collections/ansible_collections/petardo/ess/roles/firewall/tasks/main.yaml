@@ -1,0 +1,19 @@
+---
+# NOTE: I think we should be able to pass it var-style, like this:
+#
+# - name: "Write firewall rules"
+#   community.general.ufw: var=item
+#
+# ...but it doesn't work :/
+
+- name: "Write firewall rules"
+  community.general.ufw:
+    src: "{{ item.get('src') }}"
+    rule: "{{ item.get('rule') }}"
+    proto: "{{ item.get('proto') }}"
+    comment: "{{ item.get('comment') }}"
+    interface: "{{ item.get('interface') }}"
+  when: |-
+    item is not none
+  loop: |-
+    {{ (firewall.rules | default([])) | petardo.ess.map_ufws }}

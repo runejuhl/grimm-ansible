@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    ansible_connection: vmware_tools
+    ansible_vmware_validate_certs: false # default is true
+
+    # 423f3553-4ced-2dc0-2320-f24baeca9b62
+    ansible_vmware_guest_uuid: |-
+      {{ (target_hosts[0] | split('_', 1))[1] }}
+    ansible_user: root
+    ansible_vmware_tools_user: root
+    ansible_vmware_tools_password: |-
+      {{ vm_root_password }}
+
+  tasks:
+    - name: "Create Ansible user"
+      ansible.builtin.user:
+        name: ansible
+        system: true
+        home: /var/lib/ansible
+        create_home: true
+
+    - name: "Install Ansible SSH pubkey"
+      ansible.posix.authorized_key:
+        user: ansible
+        exclusive: true
+        key: |-
+          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPpY+TkpB4TYOcu57zLBd625qYNlSvxoZWBRiLlIv//i Ansible user
+
+    - name: "Add Ansible user to sudoers"
+      community.general.sudoers:
+        name: ansible
+        user: ansible
+        nopassword: true
+        commands: ALL

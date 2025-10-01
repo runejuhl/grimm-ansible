@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  tasks:
+    - petardo.vmware.vra_workflows:
+        id: 0e9132ee-4663-4e0d-b315-fd9d4dd6bb44
+      register: workflow
+
+    - ansible.builtin.debug:
+        msg: |-
+          {{ workflow }}

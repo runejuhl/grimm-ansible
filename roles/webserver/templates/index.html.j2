@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style type='text/css'>
+     body {
+       font-family: sans-serif;
+     }
+     .specs {
+       margin: auto;
+       width: 40%;
+       border: 2px solid black;
+       text-align: left;
+       padding: 0.5em;
+     }
+     .specsheader {
+       text-align: center;
+     }
+    </style>
+  </head>
+  <body>
+    <center>
+      <img src="./ateatechtour2025.png" alt="Atea Tech Tour 2025">
+      <h1>Welcome to Atea Tech Tour 2025</h1>
+      <h2>This server is running on <tt>{{ ansible_facts.hostname }}</tt>, a {{ ansible_facts.distribution }} {{ ansible_facts.distribution_version }} server.</h2>
+    </center>
+    <div>
+      <div class="specs">
+        <h3>Server details found with Ansible facts:</h3>
+        <ul>
+          <li>Facts collected: {{ ansible_facts.date_time.day }}/{{ ansible_facts.date_time.month }}/{{ ansible_facts.date_time.year }} - {{ ansible_facts.date_time.time }}</li>
+          <li>Platform: {{ ansible_facts.product_name }}</li>
+          <li>CPU type: {{ ansible_facts.processor[-1] }} </li>
+          <li>Architecture: {{ ansible_facts.architecture }} </li>
+          <li>CPUs: {{ ansible_facts.processor_vcpus }} </li>
+          <li>Memory MB: {{ ansible_facts.memtotal_mb }}</li>
+          <li>Default IPv4 address: {{ ansible_facts.default_ipv4.address }}</li>
+          <li>Default Gateway: {{ ansible_facts.default_ipv4.gateway }}</li>
+          <li>MAC Address: {{ ansible_facts.default_ipv4.macaddress }}</li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+</html>

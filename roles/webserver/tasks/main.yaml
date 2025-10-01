@@ -1,0 +1,24 @@
+---
+- when: |-
+    ansible_facts.os_family == 'Debian'
+  block:
+    - name: "Install nginx webserver"
+      ansible.builtin.apt:
+        name: "nginx"
+        state: "present"
+        cache_valid_time: |-
+          {{ 60 * 60 * 24 }}
+
+    - name: "Copy Atea Tech Tour image"
+      ansible.builtin.template:
+        src: "./files/ateatechtour2025.png"
+        dest: "/var/www/html/"
+        owner: root
+        mode: 0644
+
+    - name: "Create index file from Jinja2 template"
+      ansible.builtin.template:
+        src: "./templates/index.html.j2"
+        dest: "/var/www/html/index.html"
+        owner: root
+        mode: 0644

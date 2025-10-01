@@ -1,0 +1,8 @@
+---
+- hosts:
+    - tt2025-01.ruju.adc.lan
+
+  tasks:
+    - ansible.builtin.copy:
+        src: ./files/server-owners.json
+        dest: /var/www/html/

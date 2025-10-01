@@ -1,0 +1,23 @@
+---
+# https://ansible.readthedocs.io/projects/builder/en/stable/definition/
+
+version: 3
+
+images:
+  base_image:
+    name: docker.io/rockylinux/rockylinux:10
+    # name: registry.redhat.io/ansible-automation-platform-25/ee-supported-rhel9:latest
+dependencies:
+  ansible_core:
+    package_pip: ansible-core
+  ansible_runner:
+    package_pip: ansible-runner
+  galaxy: ../requirements.yml
+  python: ../requirements-ee.txt
+  # https://access.redhat.com/solutions/7101627
+  system:
+    - ansible-core
+    # - gcc
+    # - systemd-devel
+    # - python3.11-devel
+    # - libxml2-devel

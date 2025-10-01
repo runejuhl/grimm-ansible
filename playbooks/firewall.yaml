@@ -1,0 +1,4 @@
+---
+- hosts: all
+  roles:
+    - petardo.ess.firewall

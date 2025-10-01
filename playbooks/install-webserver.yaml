@@ -1,0 +1,7 @@
+---
+# Ignore the warning, see https://github.com/ansible/ansible/issues/84427
+- hosts: |
+    {{ target_hosts if target_hosts is defined else "all" }}
+  gather_facts: true
+  roles:
+    - webserver

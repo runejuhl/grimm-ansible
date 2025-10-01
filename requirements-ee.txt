@@ -1,0 +1,6 @@
+# ansible
+# ansible-core
+openpyxl
+
+# # maybe this too?
+# boto3==1.40.18

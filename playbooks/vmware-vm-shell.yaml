@@ -1,0 +1,33 @@
+---
+- hosts: |
+    {{ target_hosts if target_hosts is defined else "all" }}
+
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: |-
+          vm_id: |-
+            {{ awx_job_id is defined }}
+            {{ awx_job_id | default('no awx_job_id') }}
+            {{ inventory_hostname }}
+            {{ vm_id | default('no vm_id') }}
+            {{ config.uuid | default('no config.uuid')  }}
+            {{ hostvars[inventory_hostname]["config.uuid"] | default('no config.uuid')  }}
+
+    - name: Run command inside a virtual machine with wait and timeout
+      community.vmware.vmware_vm_shell:
+        vm_id: |-
+          {% if awx_job_id is defined %}{{ hostvars[inventory_hostname]["config.name"] }}{% else %}{{ vm_id }}{% endif %}
+        vm_username: "runejuhl"
+        vm_password: "{{ vm_password }}"
+        vm_shell: /bin/touch
+        vm_shell_args: /tmp/omg
+        wait_for_process: true
+        timeout: 200
+      delegate_to: localhost
+      register: shell_command_with_wait_timeout
+
+    - debug:
+        msg: |-
+          {{ shell_command_with_wait_timeout }}

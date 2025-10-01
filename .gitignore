@@ -1,0 +1,13 @@
+.DS_Store
+.idea
+*.log
+tmp/
+*~
+#*
+*.pyc
+.vault-password
+/collections/ansible_collections/community/
+/collections/ansible_collections/*.info/
+/galaxy_cache/
+/context/
+/.ansible/fact_cache/
